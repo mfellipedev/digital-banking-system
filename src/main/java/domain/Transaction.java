@@ -38,4 +38,24 @@ public class Transaction {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public UUID getTransactionId() {
+        return transactionId;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
 }

@@ -1,6 +1,7 @@
 package service;
 
 import domain.Transaction;
+import domain.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,13 @@ public class AccountServiceTest {
         accountService = new AccountService(accountRepository, transactionRepository);
     }
 
+    private Transaction createTransaction(BigDecimal value, TransactionType type) {
+        Transaction transaction = new Transaction();
+        transaction.setValue(value);
+        transaction.setTransactionType(type);
+        return transaction;
+    }
+
     @Test
     public void shouldReturnZeroWhenAccountHasNoTransactions() {
         UUID accountId = UUID.randomUUID();
@@ -38,13 +46,23 @@ public class AccountServiceTest {
     @Test
     void shouldReturnTransactionAmountWhenAccountHasOneCredit() {
         UUID accountId = UUID.randomUUID();
-        Transaction transaction = new Transaction();
-        transaction.setTransactionType(CREDIT);
-        transaction.setValue(new BigDecimal("100.00"));
+        Transaction transaction = createTransaction(new BigDecimal("100.00"), TransactionType.CREDIT);
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
         Mockito.when(transactionRepository.findByAccount_AccountId(accountId)).thenReturn(transactions);
 
         Assertions.assertEquals(new BigDecimal("100.00"), accountService.calculateBalance(accountId));
+    }
+    @Test
+    void shouldSubtractAmountWhenAccountHasOneDebit() {
+        UUID accountId = UUID.randomUUID();
+        Transaction transaction = createTransaction(new BigDecimal("100.00"), TransactionType.CREDIT);
+        Transaction transactionDebit = createTransaction(new BigDecimal("90.00"), TransactionType.DEBIT);
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(transaction);
+        transactions.add(transactionDebit);
+
+        Mockito.when(transactionRepository.findByAccount_AccountId(accountId)).thenReturn(transactions);
+        Assertions.assertEquals(new BigDecimal("10.00"), accountService.calculateBalance(accountId));
     }
 }

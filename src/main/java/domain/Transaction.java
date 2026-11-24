@@ -19,6 +19,15 @@ public class Transaction {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    public Transaction(UUID transactionId, BigDecimal value, TransactionType transactionType) {
+        this.transactionId = transactionId;
+        this.value = value;
+        this.transactionType = transactionType;
+    }
+
+    public Transaction() {
+    }
+
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }

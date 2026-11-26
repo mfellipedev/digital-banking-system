@@ -19,10 +19,11 @@ public class Transaction {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    public Transaction(UUID transactionId, BigDecimal value, TransactionType transactionType) {
-        this.transactionId = transactionId;
+    public Transaction(LocalDateTime date, BigDecimal value, TransactionType transactionType, Account account) {
         this.value = value;
         this.transactionType = transactionType;
+        this.date = LocalDateTime.now();
+        this.account = account;
     }
 
     public Transaction() {

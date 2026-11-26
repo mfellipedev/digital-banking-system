@@ -21,6 +21,6 @@ public class TransactionService {
 
     public Transaction createTransaction(UUID accountId, BigDecimal value, TransactionType transactionType) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new IllegalArgumentException("Account not found"));
-        return  transactionRepository.save(new Transaction(accountId, value, transactionType));
+        return  transactionRepository.save(new Transaction(LocalDateTime.now(),value, transactionType,account));
     }
 }

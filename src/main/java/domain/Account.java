@@ -14,4 +14,20 @@ public class Account {
     private UUID id;
     private String agency;
     private String accountNumber;
+
+    public User getUser() {
+        return user;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getAgency() {
+        return agency;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 }
